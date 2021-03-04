@@ -28,14 +28,14 @@ namespace DediServer
 	};
 	using IDediAllocatePolicyPtr = std::shared_ptr<IDediAllocateToRoomPolicy>;
 
-	class IDediServerInfo
+	class AbstractDediServerInfo
 	{
 	protected:
 		DediServerID    _Id;
 		DediServerState _State;
 		IDediAllocatePolicyPtr _PolicyPtr;
 
-		IDediServerInfo(const IDediAllocatePolicyPtr& Ptr);
+		AbstractDediServerInfo(const IDediAllocatePolicyPtr& Ptr);
 
 		virtual void OnAllocated() = 0;
 
@@ -48,7 +48,7 @@ namespace DediServer
 	private:
 		bool RequestDedi(const GameRoom::RoomPtr& RequestorRoomPtr);
 	};
-	using IDediServerInfoPtr = std::shared_ptr<IDediServerInfo>;
+	using DediServerInfoPtr = std::shared_ptr<AbstractDediServerInfo>;
 
 
 	class DediPoolManager
@@ -58,12 +58,12 @@ namespace DediServer
 		DediPoolManager(const IDediAllocatePolicyPtr& GameRoomDediAllocatePtr);
 
 		// DediServer -> DediPoolManager
-		void AssignNewDedi(const DediServerID Key, const IDediServerInfoPtr& Ptr);
+		void AssignNewDedi(const DediServerID Key, const DediServerInfoPtr& Ptr);
 		void RemoveDedi(const DediServerID Key);
 		void ChangeDediState(const DediServerID Key, DediServerState State);
 
 		// Room Content -> DediPoolManager
-		void RequestAvailableDedi(IDediServerInfoPtr& OUT Ptr, const GameRoom::RoomPtr& RequesterRoomPtr);
+		void RequestAvailableDedi(DediServerInfoPtr& OUT Ptr, const GameRoom::RoomPtr& RequesterRoomPtr);
 	};
 
 }

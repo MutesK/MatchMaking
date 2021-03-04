@@ -2,10 +2,10 @@
 
 namespace GameRoom
 {
-	class IPlayerInfo
+	class IMatchgTicket
 	{
 	};
-	using IPlayerInfoPtr = std::shared_ptr<IPlayerInfo>;
+	using IMatchTicketPtr = std::shared_ptr<IMatchgTicket>;
 
 	using RoomID = std::string;
 	class IFactoryRoomIDPolicy
@@ -16,9 +16,9 @@ namespace GameRoom
 
 	class IJoinRoomPolicy
 	{
-		virtual bool CanJoinable(const IPlayerInfoPtr Ptr) = 0;
+		virtual bool CanJoinable(const IMatchTicketPtr Ptr) = 0;
 
-		virtual bool CanJoinable(const std::vector<IPlayerInfoPtr> Ptr) = 0;
+		virtual bool CanJoinable(const std::vector<IMatchTicketPtr> Ptr) = 0;
 	};
 	using IJoinRoomPolicyPtr = std::shared_ptr<IJoinRoomPolicy>;
 
@@ -28,7 +28,7 @@ namespace GameRoom
 	};
 	using IFindDediPolicyPtr = std::shared_ptr<IFindDediPolicy>;
 
-	// 여러가지 게임모드가 있을수있음 그에 따라 입장방법이 다를수있다.
+
 	enum class GameRoomType
 	{
 	};
@@ -45,12 +45,12 @@ namespace GameRoom
 		IFindDediPolicyPtr     _IsFindDediTimingPolicy;
 	};
 
-	class IRoomInfo
+	class AbstractRoomInfo
 	{
 	protected:
 		RoomState _State;
 
-		IRoomInfo(const RoomInfoParameters& Parameters);
+		AbstractRoomInfo(const RoomInfoParameters& Parameters);
 
 		friend class RoomManager;
 	public:
